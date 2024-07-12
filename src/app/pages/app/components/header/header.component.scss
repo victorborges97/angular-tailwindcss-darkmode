@@ -1,0 +1,22 @@
+header {
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 14;
+    font-weight: 500;
+    color: white;
+}
+
+header.scrolled {
+    background-color: white;
+    color: #6b707f !important;
+    transform: translateY(-100%);
+    position: fixed;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+}
+
+header.visible {
+    transform: translateY(0);
+}
+
+header.at-top {
+    background-color: transparent;
+}
