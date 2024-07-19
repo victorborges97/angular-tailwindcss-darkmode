@@ -4,11 +4,28 @@ import { ForunsService } from './service';
 import { CreateForunDto } from './dto/create.dto';
 import { UpdateForunDto } from './dto/update.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { TopicsService } from 'src/topics/service';
+import { UsersService } from 'src/users/model.service';
 
 @Controller('foruns')
 @ApiTags('forums')
 export class ForunsController {
-    constructor(private readonly forunsService: ForunsService) { }
+    constructor(
+        private readonly forunsService: ForunsService,
+        private readonly topicsService: TopicsService,
+        private readonly usersService: UsersService,
+    ) { }
+
+    @Get('counts')
+    async getCountForuns() {
+        return {
+            topics: await this.topicsService.count(),
+            foruns: await this.forunsService.count(),
+            users: await this.usersService.count(),
+            comments: 0,
+            tags: 0,
+        }
+    }
 
     @Post()
     create(@Body() createForunDto: CreateForunDto) {

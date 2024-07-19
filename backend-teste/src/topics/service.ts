@@ -91,6 +91,21 @@ export class TopicsService {
         });
     }
 
+    async findRecents(quantity: number) {
+        return await this.prisma.topic.findMany({
+            select: {
+                id: true,
+                slug: true,
+                title: true,
+                forumId: true,
+            },
+            orderBy: {
+                createdAt: 'desc', // Ordena pelos mais recentes, assumindo que você tem um campo createdAt
+            },
+            take: quantity, // Limita a quantidade de resultados
+        });
+    }
+
     async findAllByForumId(forumId: string) {
         return await this.prisma.topic.findMany({
             where: {
@@ -164,7 +179,12 @@ export class TopicsService {
     }
 
     async count() {
-        return await this.prisma.topic.count();
+        try {
+            return await this.prisma.topic.count();
+        } catch (e) {
+            console.log("error count: " + e);
+            return 0;
+        }
     }
 
     async findOne(id: number) {

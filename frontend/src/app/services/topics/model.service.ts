@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Forum, ForumCreate } from 'src/app/interfaces/forum';
 import { TopicModel, TopicModelCreated } from 'src/app/interfaces/topic.model';
 import { GetTopicModel } from 'src/app/interfaces/get.topic.model';
+import { RecentTopicModel } from 'src/app/interfaces/recent.topic.model';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +27,14 @@ export class TopicsService {
     public getAllByTag(tag: string) {
         return new Promise<TopicModel[]>((resolve, reject) => {
             this.http.get<TopicModel[]>(`${environment.apiUrl}/topics/tag/${tag}`, this.header).subscribe({
+                next: (data) => resolve(data),
+                error: (error) => reject(error),
+            });
+        });
+    }
+    public getAllRecents(quantity: number) {
+        return new Promise<RecentTopicModel[]>((resolve, reject) => {
+            this.http.get<RecentTopicModel[]>(`${environment.apiUrl}/topics/recents?quantity=${quantity}`, this.header).subscribe({
                 next: (data) => resolve(data),
                 error: (error) => reject(error),
             });

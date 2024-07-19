@@ -9,6 +9,10 @@ import { User } from './entities/user.entity';
 @Injectable()
 export class UsersService {
     constructor(private prisma: PrismaService) { }
+    async count() {
+        return await this.prisma.user.count().catch(() => 0);
+    }
+
     async create(createUserDto: CreateUserDto) {
         const userExist = await this.prisma.user.findUnique({
             where: {

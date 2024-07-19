@@ -20,21 +20,21 @@
             <li style="flex-basis: 25%">{{ getTotalComments }}</li>
             <li class="flex flex-1 flex-col justify-start items-end">
                 <a
-                    href="https://wordpress-theme.spider-themes.net/docly/forums/topic/scheduled-downtime-this-fall/"
+                    href="app/forum/{{ item.id }}/topicId"
                     class="text-sm text-gray-500"
                 >
                     {{ item.createdAt | timeago }}
                 </a>
                 <div class="flex justify-end items-center mt-2">
                     <a
-                        href="https://wordpress-theme.spider-themes.net/docly/forums/users/jewel/"
+                        href="app/user/{{ item.user.id }}"
                         class="flex items-center text-sm text-gray-500"
                     >
-                        <span class="mr-2">Eh Jóia</span>
+                        <span class="mr-2">{{ item.user.name }}</span>
                         <img
                             class="w-8 h-8 rounded-full"
-                            src="https://secure.gravatar.com/avatar/29bcdc9972fc678d8c132abc15cce0a8?s=45&d=mm&r=g"
-                            alt=""
+                            [src]="item.user.imageUrl"
+                            [alt]="item.user.name"
                         />
                     </a>
                 </div>

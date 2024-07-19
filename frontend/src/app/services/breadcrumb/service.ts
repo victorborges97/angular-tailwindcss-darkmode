@@ -14,7 +14,9 @@ interface Breadcrumb {
 })
 export class BreadcrumbService {
     private breadcrumbs = new BehaviorSubject<Breadcrumb[]>([]);
+    private breadcrumbHora = new BehaviorSubject<String>("");
     breadcrumbs$ = this.breadcrumbs.asObservable();
+    breadcrumbHora$ = this.breadcrumbHora.asObservable();
 
     constructor(private router: Router) {
         this.router.events.pipe(
@@ -44,6 +46,7 @@ export class BreadcrumbService {
                 url: url,
                 data: child.data['breadcrumbData']
             };
+            this.breadcrumbHora.next(child.data['breadcrumbData'] || '');
             breadcrumbs.push(breadcrumb);
 
             return this.createBreadcrumbs(child, url, breadcrumbs);

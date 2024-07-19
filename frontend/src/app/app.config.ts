@@ -34,9 +34,15 @@ export const appConfig: ApplicationConfig = {
                 children: [
                     { path: "", redirectTo: "forum", pathMatch: "full" },
                     {
+                        path: 'user/:id',
+                        component: ForumTopicComponent,
+                        pathMatch: 'full',
+                        data: { breadcrumb: 'User', breadcrumbData: '' }
+                    },
+                    {
                         path: 'forum',
                         component: ForumComponent,
-                        data: { breadcrumb: 'Forum' }
+                        data: { breadcrumb: 'Forum' },
                     },
                     {
                         path: 'forum/:forumTag',
@@ -52,7 +58,7 @@ export const appConfig: ApplicationConfig = {
                         path: 'forum/:forumTag/:topicTag',
                         component: ForumTopicComponent,
                         pathMatch: 'full',
-                        data: { breadcrumb: 'Topic' }
+                        data: { breadcrumb: 'Topic', breadcrumbData: '' }
                     },
                 ]
             },

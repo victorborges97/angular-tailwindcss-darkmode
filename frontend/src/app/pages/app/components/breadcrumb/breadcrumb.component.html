@@ -29,12 +29,21 @@
                     </ol>
                 </nav>
             </div>
-            <div class="col-sm-4 col-md-3">
-                <span class="text-[#878ea6] float-right">
+            <div
+                *ngIf="breadcrumbData$ | async as hora; template"
+                class="col-sm-4 col-md-3"
+            >
+                <span
+                    *ngIf="hora.length > 0"
+                    class="text-[#878ea6] float-right"
+                >
                     <i class="icon_clock_alt"></i>
                     Updated on September 24, 2020
                 </span>
             </div>
+            <ng-template #template>
+                <div @else></div>
+            </ng-template>
         </div>
     </div>
 </section>

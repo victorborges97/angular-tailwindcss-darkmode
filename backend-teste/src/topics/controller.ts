@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { TopicsService } from './service';
 import { TopicCreateDto } from './dto/create.dto';
 import { TopicUpdateDto } from './dto/update.dto';
@@ -18,6 +18,11 @@ export class TopicsController {
     @Get()
     findAllFiltro(@Body() search: string) {
         return this.service.findAllSearch(search);
+    }
+
+    @Get('recents')
+    findRecents(@Query('quantity') quantity: string) {
+        return this.service.findRecents(Number(quantity));
     }
 
     @Get(':forumId')

@@ -99,6 +99,6 @@ export class ForunsService {
     }
 
     async count() {
-        return await this.prisma.forum.count();
+        return await this.prisma.forum.count().catch(() => 0);
     }
 }

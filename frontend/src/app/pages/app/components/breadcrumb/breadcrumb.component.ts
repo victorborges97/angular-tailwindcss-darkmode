@@ -10,6 +10,7 @@ import { BreadcrumbService } from 'src/app/services/breadcrumb/service';
 })
 export class BreadcrumbComponent {
     breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
+    breadcrumbData$ = this.breadcrumbService.breadcrumbHora$;
 
     constructor(private breadcrumbService: BreadcrumbService) { }
 
