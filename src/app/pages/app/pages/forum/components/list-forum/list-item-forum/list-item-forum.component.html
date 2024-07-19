@@ -3,27 +3,28 @@
         <div class="w-12 h-12 flex-shrink-0">
             <img
                 class="object-cover w-full h-full rounded-full"
-                src="https://wordpress-theme.spider-themes.net/docly/wp-content/uploads/2020/07/megaphone.png"
-                alt="megafone"
+                src="{{ item.imageUrl }}"
+                alt="{{ item.name }}"
             />
         </div>
         <div class="ml-4">
-            <a href="app/forum/announcements/">
-                <h3 class="text-lg font-semibold">Anúncios</h3>
+            <a href="app/forum/{{ item.id }}/">
+                <h3 class="text-lg font-semibold">{{ item.name }}</h3>
             </a>
-            <p>Este fórum é um fórum especial para anúncios gerais.</p>
+            <p>{{ item.description }}</p>
         </div>
     </div>
     <div class="flex-1 mt-4 md:mt-0 md:ml-4">
         <ul class="flex text-right text-sm">
-            <li style="flex-basis: 25%">3</li>
-            <li style="flex-basis: 25%">1</li>
+            <li style="flex-basis: 25%">{{ getTotalTopics }}</li>
+            <li style="flex-basis: 25%">{{ getTotalComments }}</li>
             <li class="flex flex-1 flex-col justify-start items-end">
                 <a
                     href="https://wordpress-theme.spider-themes.net/docly/forums/topic/scheduled-downtime-this-fall/"
                     class="text-sm text-gray-500"
-                    >3 anos, 11 meses atrás</a
                 >
+                    {{ item.createdAt | timeago }}
+                </a>
                 <div class="flex justify-end items-center mt-2">
                     <a
                         href="https://wordpress-theme.spider-themes.net/docly/forums/users/jewel/"

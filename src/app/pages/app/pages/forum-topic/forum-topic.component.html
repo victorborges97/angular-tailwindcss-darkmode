@@ -1,24 +1,32 @@
 <div class="container mx-auto pt-24">
     <div class="flex flex-wrap gap-10">
-        <div class="flex-1 min-w-[200px]">
+        <div *ngIf="topic() == null" class="flex-1 min-w-[200px]">
+            <h3>Topico não encontrado na base de dados!</h3>
+            <h4>
+                Volte e pesquise novamente o topico
+                <a class="hover:text-blue-600" href="/app/forum">Voltar</a>
+            </h4>
+        </div>
+
+        <div *ngIf="topic() != null" class="flex-1 min-w-[200px]">
             <!-- Header Usuario -->
             <div class="flex-1 flex items-center">
                 <div class="w-12 h-12 flex-shrink-0">
                     <a
-                        href="app/forum/user/ID"
+                        href="app/forum/user/{{ topic()?.author?.id }}"
                         class="flex items-center text-sm text-gray-500"
                     >
                         <img
                             class="w-11 h-w-11 rounded-full"
-                            src="https://secure.gravatar.com/avatar/29bcdc9972fc678d8c132abc15cce0a8?s=45&d=mm&r=g"
-                            alt=""
+                            src="{{ topic()?.author?.imageUrl }}"
+                            alt="{{ topic()?.author?.name }}"
                         />
                     </a>
                 </div>
                 <div class="ml-4">
-                    <a href="app/forum/user/ID">
+                    <a href="app/forum/user/{{ topic()?.author?.id }}">
                         <h3 class="font-semibold text-secondary mb-2">
-                            User Name
+                            {{ topic()?.author?.name }}
                         </h3>
                     </a>
                     <ul class="flex gap-6 items-center text-sm text-[#838793]">
@@ -38,7 +46,7 @@
                                 />
                             </svg>
 
-                            <span>June 15, 2021 at 7:40 am</span>
+                            <span>{{ topic()?.createdAt | timeago }}</span>
                         </li>
                     </ul>
                 </div>
@@ -50,57 +58,150 @@
                     >T:</span
                 >
                 <h1 class="text-3xl text-secondary font-semibold">
-                    how compile SCSS
+                    {{ topic()?.title }}
                 </h1>
             </div>
 
             <div class="pl-16">
                 <div class="content">
-                    <p>Hello,</p>
-                    <p>
-                        We try to use the SCSS files, have you some script o
-                        package.json config to compile the scss files?
-                    </p>
-                    <p>Thanks</p>
+                    {{ topic()?.content }}
                 </div>
-                <div class="forum-post-btm">
-                    <div class="taxonomy forum-post-tags">
+                <!-- TAG AND FORUM -->
+                <div
+                    class="py-6 flex justify-between border-b border-b-[#e8ecee]"
+                >
+                    <div class="text-sm">
                         <i class="icon_tags_alt"></i>
-                        <strong>Tagged:</strong>&nbsp;
-                        <span class="tags"
-                            ><a
-                                href="https://wordpress-theme.spider-themes.net/docly/forums/topic-tag/html/"
-                                rel="tag"
-                                >HTML</a
-                            >,
+                        <strong>Tags:</strong>&nbsp;
+                        <span class="text-[#838793] gap-1">
                             <a
-                                href="https://wordpress-theme.spider-themes.net/docly/forums/topic-tag/scss/"
+                                *ngFor="let tag of topic()?.tags"
+                                href="/app/forum/topico-tag/{{ tag.tag }}/"
                                 rel="tag"
-                                >SCSS</a
-                            ></span
-                        >
+                            >
+                                {{ tag.name
+                                }}{{
+                                    (topic()?.tags ?? []).length > 1 ? "," : ""
+                                }}
+                            </a>
+                        </span>
                     </div>
-                    <div class="taxonomy forum-post-cat">
+                    <div class="flex text-sm gap-3">
                         <img
                             width="20"
                             height="20"
-                            src="https://wordpress-theme.spider-themes.net/docly/wp-content/uploads/2020/07/rc14-20x20.png"
-                            class="attachment-docly_20x20 size-docly_20x20 wp-post-image"
-                            alt="rc14"
+                            src="{{ topic()?.forum?.imageUrl }}"
+                            alt="{{ topic()?.forum?.name }}"
                             decoding="async"
                             sizes="(max-width: 20px) 100vw, 20px"
                         />
-                        <a
-                            href="https://wordpress-theme.spider-themes.net/docly/forums/forum/approach-html-template/"
-                        >
-                            Approach HTML Template
+                        <a href="/app/forum/{{ topic()?.forum?.id }}">
+                            {{ topic()?.forum?.name }}
                         </a>
                     </div>
                 </div>
-                <div class="action-button-container action-btns"></div>
+                <div class="mt-5 flex justify-start items-center"></div>
             </div>
 
             <!-- Comentarios -->
+            <div class="flex flex-col mt-14">
+                <h3 class="text-xl font-semibold mb-5 text-secondary">
+                    Todos Comentários
+                </h3>
+
+                <div class="comentarios">
+                    <div
+                        *ngFor="let comment of topic()?.comments"
+                        class="mt-7 relative"
+                    >
+                        <div class="flex gap-3">
+                            <a
+                                href="app/forum/user/{{ comment.author.id }}"
+                                title="{{ comment.author.name }}"
+                            >
+                                <span class="bbp-author-avatar">
+                                    <img
+                                        alt=""
+                                        src="{{ comment.author.imageUrl }}"
+                                        class="avatar h-12 w-12 photo"
+                                        height="80"
+                                        width="80"
+                                        decoding="async"
+                                    />
+                                </span>
+                            </a>
+
+                            <div class="">
+                                <a
+                                    href="app/forum/user/{{
+                                        comment.author.id
+                                    }}"
+                                    title="{{ comment.author.name }}"
+                                    class="text-[#0d6efd]"
+                                >
+                                    <span class="bbp-author-name">
+                                        {{ comment.author.name }}
+                                    </span>
+                                </a>
+                                <div class="flex text-sm text-[#838793] mt-1">
+                                    <div class="mr-5 flex gap-2">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            width="16px"
+                                            height="15px"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                fill="rgb(131, 135, 147)"
+                                                d="M11.729,12.136 L11.582,12.167 C11.362,12.415 11.125,12.645 10.869,12.857 L14.999,12.857 C15.134,12.857 15.255,12.944 15.307,13.077 C15.359,13.211 15.331,13.365 15.235,13.467 L14.488,14.268 C14.053,14.733 13.452,15.000 12.838,15.000 L2.495,15.000 C1.872,15.000 1.286,14.740 0.845,14.268 L0.098,13.467 C0.002,13.365 -0.026,13.211 0.026,13.077 C0.077,12.944 0.199,12.857 0.334,12.857 L4.463,12.857 C2.928,11.585 2.000,9.630 2.000,7.499 L2.000,6.785 C2.000,6.194 2.449,5.713 3.000,5.713 L12.333,5.713 C12.885,5.713 13.333,6.194 13.333,6.785 L13.333,7.343 C13.869,7.160 14.736,6.973 15.355,7.400 C15.783,7.696 16.000,8.209 16.000,8.928 C16.000,11.239 11.903,12.100 11.729,12.136 ZM14.994,8.002 C14.557,7.698 13.715,7.941 13.294,8.113 C13.197,9.261 12.837,10.339 12.255,11.269 C13.480,10.911 15.333,10.116 15.333,8.928 C15.333,8.462 15.223,8.158 14.994,8.002 ZM10.261,4.419 C10.376,4.573 10.353,4.798 10.209,4.921 C10.148,4.974 10.074,4.999 10.001,4.999 C9.903,4.999 9.807,4.954 9.740,4.865 C9.198,4.139 9.198,3.002 9.741,2.277 C10.086,1.816 10.086,1.040 9.742,0.580 C9.627,0.426 9.650,0.201 9.794,0.078 C9.937,-0.044 10.146,-0.020 10.263,0.134 C10.805,0.860 10.805,1.996 10.263,2.722 C9.917,3.183 9.917,3.959 10.261,4.419 ZM8.259,4.419 C8.373,4.573 8.350,4.798 8.207,4.921 C8.145,4.974 8.071,4.999 7.999,4.999 C7.901,4.999 7.804,4.954 7.738,4.865 C7.195,4.139 7.195,3.002 7.738,2.277 C8.082,1.816 8.082,1.040 7.739,0.580 C7.624,0.426 7.647,0.201 7.791,0.078 C7.935,-0.045 8.145,-0.020 8.259,0.134 C8.802,0.860 8.802,1.996 8.259,2.722 C7.915,3.183 7.915,3.959 8.259,4.419 ZM6.261,4.418 C6.376,4.572 6.353,4.797 6.210,4.920 C6.148,4.973 6.074,4.999 6.001,4.999 C5.903,4.999 5.807,4.953 5.741,4.865 C5.198,4.139 5.198,3.002 5.741,2.276 C6.085,1.815 6.085,1.039 5.742,0.580 C5.627,0.426 5.650,0.201 5.794,0.078 C5.937,-0.046 6.147,-0.020 6.262,0.133 C6.804,0.859 6.804,1.996 6.262,2.721 C5.918,3.182 5.918,3.959 6.261,4.418 Z"
+                                            ></path>
+                                        </svg>
+                                        <span> Participant </span>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="currentColor"
+                                            class="h-5"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+                                            />
+                                        </svg>
+                                        {{ comment.createdAt | timeago }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="ml-14 mt-3 border-b border-b-[#e8ecee] pb-8"
+                            [innerHTML]="comment.content"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="mt-12"></div>
+
+                <!-- Aviso Login -->
+                <div
+                    class="border border-[#e6db55] rounded bg-[#ffffe0] text-black mt-1 mb-4 px-2"
+                >
+                    <ul>
+                        <li class="mt-2 mb-[6px] p-[2px] text-xs">
+                            You must be logged in to reply to this topic.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Formulário de Comentário -->
+            </div>
 
             <!-- Input Comentario -->
         </div>

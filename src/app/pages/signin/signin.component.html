@@ -1,0 +1,52 @@
+<div class="flex items-center h-screen">
+    <div class="max-w-[520px] w-full mx-auto">
+        <div class="text-center">
+            <h3 class="text-2xl text-secondary font-semibold mb-4">
+                Login Account
+            </h3>
+            <p class="text-sm">
+                Don’t have an account yet?
+                <a class="font-medium text-secondary" href="/sign-up"
+                    >Sign in here</a
+                >
+            </p>
+        </div>
+        <div id="reg-form-validation-messages" class="pt-5 pb-5"></div>
+        <form name="registerform" class="flex-1 w-full">
+            <div class="mb-5 relative flex flex-col w-full">
+                <label for="username" class="inline-block text-secondary mb-1">
+                    Username</label
+                >
+                <input
+                    name="username"
+                    id="username"
+                    type="text"
+                    class="bg-[#fbfcfd] rounded px-7 py-[12px] text-sm transition-all border border-[#e3e8ea] outline-none shadow-none flex-1"
+                    placeholder="User name"
+                />
+            </div>
+
+            <div class="mb-5 relative flex flex-col w-full">
+                <label for="password" class="inline-block text-secondary mb-1">
+                    Password
+                </label>
+                <input
+                    name="password"
+                    id="password"
+                    type="password"
+                    class="bg-[#fbfcfd] rounded px-7 py-[12px] text-sm transition-all border border-[#e3e8ea] outline-none shadow-none flex-1"
+                    placeholder="Password"
+                />
+            </div>
+
+            <div class="col-lg-12 text-center">
+                <button
+                    type="submit"
+                    class="rounded bg-[#10b3d6] px-6 py-2 text-center border-0 transition-all text-white"
+                >
+                    Sign in
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

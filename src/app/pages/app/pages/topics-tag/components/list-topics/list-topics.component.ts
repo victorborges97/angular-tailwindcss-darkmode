@@ -1,11 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListItemTopicComponent } from '../list-item-topics/list-item-topics.component';
-import { ForumService } from 'src/app/services/forum/forum.service';
-import { ActivatedRoute } from '@angular/router';
-import { Forum } from 'src/app/interfaces/forum';
 import { TopicsService } from 'src/app/services/topics/model.service';
+import { ActivatedRoute } from '@angular/router';
 import { TopicModel } from 'src/app/interfaces/topic.model';
+import { ListItemTopicComponent } from '../../../forum-topics/components/list-item-topics/list-item-topics.component';
 
 @Component({
     selector: 'app-list-topics',
@@ -16,22 +14,22 @@ import { TopicModel } from 'src/app/interfaces/topic.model';
 export class ListTopicsComponent {
     constructor(private topicsService: TopicsService, private route: ActivatedRoute) { }
 
-    forumTag = "";
+    tag = "";
     topics: TopicModel[] = [];
     loading = signal(false);
 
     ngOnInit() {
         // Se você precisar observar mudanças no parâmetro (por exemplo, se a rota puder mudar dentro do mesmo componente), use:
         this.route.paramMap.subscribe(params => {
-            this.forumTag = params.get('forumTag') ?? "";
-            // Faça algo com o novo valor de forumTag
+            this.tag = params.get('tag') ?? "";
+            // Faça algo com o novo valor de tag
             this.fetchTopicsByForums();
         });
     }
 
     fetchTopicsByForums() {
         this.loading.set(true);
-        this.topicsService.getAllByForumId(this.forumTag).then((data) => {
+        this.topicsService.getAllByTag(this.tag).then((data) => {
             this.topics = data;
             this.loading.set(false);
         }).catch(e => {

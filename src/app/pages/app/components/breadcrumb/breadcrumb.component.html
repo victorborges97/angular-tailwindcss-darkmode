@@ -3,12 +3,29 @@
         <div class="flex items-center justify-between text-sm">
             <div class="col-sm-8 col-md-9">
                 <nav aria-label="breadcrumb">
-                    <ol class="flex items-center gap-3">
-                        <li class="text-[#878ea6]">
-                            <a href="/" class="bbp-breadcrumb-home">Home</a>
+                    <ol
+                        *ngIf="breadcrumbs$ | async as breads"
+                        class="flex items-center gap-3"
+                    >
+                        <li
+                            *ngFor="let breadcrumb of breads"
+                            class="text-[#878ea6]"
+                        >
+                            <a
+                                [href]="breadcrumb.url"
+                                class="bbp-breadcrumb-home"
+                                >{{ breadcrumb.label }}</a
+                            >
+                            <span
+                                class="ml-2"
+                                *ngIf="
+                                    breads != undefined &&
+                                    breads.length > 0 &&
+                                    breadcrumb !== breads[breads.length - 1]
+                                "
+                                >></span
+                            >
                         </li>
-                        <li class="text-[#878ea6]">></li>
-                        <li class="text-[#1d2746]">Forums</li>
                     </ol>
                 </nav>
             </div>
