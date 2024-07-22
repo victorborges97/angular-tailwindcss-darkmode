@@ -1,6 +1,16 @@
 <div class="container mx-auto pt-24">
-    <div class="flex flex-wrap gap-10">
-        <div *ngIf="topic() == null" class="flex-1 min-w-[200px]">
+    <div class="flex flex-wrap gap-10 relative">
+        <div
+            *ngIf="loading() == true"
+            class="flex-1 min-w-[200px] min-h-[300px] flex justify-center items-center"
+        >
+            loading....
+        </div>
+
+        <div
+            *ngIf="topic() == null && loading() == false"
+            class="flex-1 min-w-[200px]"
+        >
             <h3>Topico não encontrado na base de dados!</h3>
             <h4>
                 Volte e pesquise novamente o topico
@@ -8,7 +18,10 @@
             </h4>
         </div>
 
-        <div *ngIf="topic() != null" class="flex-1 min-w-[200px]">
+        <div
+            *ngIf="topic() != null && loading() == false"
+            class="flex-1 min-w-[200px]"
+        >
             <!-- Header Usuario -->
             <div class="flex-1 flex items-center">
                 <div class="w-12 h-12 flex-shrink-0">
@@ -204,6 +217,27 @@
             </div>
 
             <!-- Input Comentario -->
+            <form class="w-full min-h-[100px] gap-2">
+                <div class="NgxEditor__Wrapper">
+                    <quill-editor
+                        [(ngModel)]="htmlText"
+                        placeholder="Enter Text"
+                        name="comentario"
+                        [modules]="quillConfig"
+                        (onSelectionChanged)="onSelectionChanged($event)"
+                        (onContentChanged)="onContentChanged($event)"
+                    ></quill-editor>
+                </div>
+
+                <div class="flex justify-end items-center mt-2">
+                    <button
+                        class="bg-primary py-1 px-4 rounded-lg text-white"
+                        (click)="onSave()"
+                    >
+                        Salvar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
