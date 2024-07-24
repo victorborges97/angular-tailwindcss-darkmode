@@ -9,9 +9,10 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/model.module';
 import { ForunsModule } from './foruns/module';
 import { TopicsModule } from './topics/module';
+import { CommentsModule } from './comments/module';
 
 @Module({
-    imports: [PrismaModule, UsersModule, AuthModule, ForunsModule, TopicsModule],
+    imports: [PrismaModule, UsersModule, AuthModule, ForunsModule, TopicsModule, CommentsModule],
     controllers: [AppController],
     providers: [AppService],
 })

@@ -144,6 +144,7 @@ export class ForumTopicComponent {
     }
 
     onSelectionChanged = (event: any) => {
+        console.log(event);
         if (event.range == null) {
             this.onBlur();
         }
