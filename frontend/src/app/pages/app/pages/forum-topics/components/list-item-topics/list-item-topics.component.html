@@ -5,11 +5,10 @@
                 href="app/forum/user/{{ item.author.id }}"
                 class="flex items-center text-sm text-gray-500"
             >
-                <img
+                <app-image-user
                     class="w-11 h-w-11 rounded-full"
-                    src="{{ item.author.imageUrl }}"
-                    alt="{{ item.author.name }}"
-                    onerror="this.onerror=null;this.src='assets/teste.png';"
+                    [src]="item.author.imageUrl"
+                    [alt]="item.author.name"
                 />
             </a>
         </div>
@@ -21,15 +20,10 @@
             </a>
             <ul class="flex gap-6 items-center text-sm text-[#838793]">
                 <li class="flex gap-2 items-center">
-                    <img
-                        loading="lazy"
-                        width="20"
-                        height="20"
-                        src="{{ item.forum.imageUrl }}"
-                        class="attachment-20x20 size-20x20 wp-post-image"
-                        alt="rc14"
-                        decoding="async"
-                        sizes="(max-width: 20px) 100vw, 20px"
+                    <app-image-topic-forum
+                        class="w-5 h-5 rounded-full"
+                        [src]="item.forum.imageUrl"
+                        [alt]="item.forum.name"
                     />
                     <a [href]="getUrlForum()"> {{ item.forum.name }} </a>
                 </li>

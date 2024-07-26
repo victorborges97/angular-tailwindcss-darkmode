@@ -29,10 +29,10 @@
                         href="app/forum/user/{{ topic()?.author?.id }}"
                         class="flex items-center text-sm text-gray-500"
                     >
-                        <img
+                        <app-image-user
                             class="w-11 h-w-11 rounded-full"
-                            src="{{ topic()?.author?.imageUrl }}"
-                            alt="{{ topic()?.author?.name }}"
+                            [src]="topic()?.author?.imageUrl ?? ''"
+                            [alt]="topic()?.author?.name ?? 'Usuario Created'"
                         />
                     </a>
                 </div>
@@ -133,13 +133,10 @@
                                 title="{{ comment.author.name }}"
                             >
                                 <span class="bbp-author-avatar">
-                                    <img
-                                        alt=""
-                                        src="{{ comment.author.imageUrl }}"
-                                        class="avatar h-12 w-12 photo"
-                                        height="80"
-                                        width="80"
-                                        decoding="async"
+                                    <app-image-user
+                                        class="w-12 h-12 rounded-full"
+                                        [src]="comment.author.imageUrl"
+                                        [alt]="comment.author.name"
                                     />
                                 </span>
                             </a>
@@ -204,6 +201,7 @@
 
                 <!-- Aviso Login -->
                 <div
+                    *ngIf="!authService.isLogged()"
                     class="border border-[#e6db55] rounded bg-[#ffffe0] text-black mt-1 mb-4 px-2"
                 >
                     <ul>
@@ -214,30 +212,66 @@
                 </div>
 
                 <!-- Formulário de Comentário -->
-            </div>
+                <div
+                    *ngIf="
+                        authService.hasPermission('canComment');
+                        else canNotComment
+                    "
+                    class="flex gap-3 w-full"
+                >
+                    <div class="w-12 h-12 flex-shrink-0 mt-[50px]">
+                        <a
+                            href="app/forum/user/ID"
+                            class="flex items-center text-sm text-gray-500"
+                        >
+                            <app-image-user
+                                class="w-12 h-12 rounded-full"
+                                src="https://github.com/victorborges97.png"
+                                alt="Imagem Usuario Logado"
+                            />
+                            <!-- <img
+                                class="w-12 h-12 rounded-full"
+                                src="https://github.com/victorborges97.png"
+                                alt="Imagem Usuario Logado"
+                            /> -->
+                        </a>
+                    </div>
 
-            <!-- Input Comentario -->
-            <form class="w-full min-h-[100px] gap-2">
-                <div class="NgxEditor__Wrapper">
-                    <quill-editor
-                        [(ngModel)]="htmlText"
-                        placeholder="Enter Text"
-                        name="comentario"
-                        [modules]="quillConfig"
-                        (onSelectionChanged)="onSelectionChanged($event)"
-                        (onContentChanged)="onContentChanged($event)"
-                    ></quill-editor>
+                    <form class="w-full gap-2">
+                        <quill-editor
+                            id="quillEditor"
+                            [(ngModel)]="htmlText"
+                            placeholder="Enter Text"
+                            name="comentario"
+                            [modules]="quillConfig"
+                            (onSelectionChanged)="onSelectionChanged($event)"
+                            (onContentChanged)="onContentChanged($event)"
+                            classes="min-h-[60px] rounded-lg gap-4 border border-gray-200!"
+                        ></quill-editor>
+
+                        <div class="flex justify-end items-center mt-2">
+                            <button
+                                class="bg-primary py-1 px-4 rounded-lg text-white"
+                                (click)="onSave()"
+                            >
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
-                <div class="flex justify-end items-center mt-2">
-                    <button
-                        class="bg-primary py-1 px-4 rounded-lg text-white"
-                        (click)="onSave()"
+                <ng-template #canNotComment>
+                    <div
+                        class="border border-red-500 rounded bg-red-300 text-black mt-1 mb-4 px-2"
                     >
-                        Salvar
-                    </button>
-                </div>
-            </form>
+                        <ul>
+                            <li class="mt-2 mb-[6px] p-[2px] text-xs">
+                                Não tem permissão para comentar!
+                            </li>
+                        </ul>
+                    </div>
+                </ng-template>
+            </div>
         </div>
     </div>
 </div>

@@ -50,6 +50,25 @@ export class TopicsService {
         });
     }
 
+    public async createCommentByTopic(slug: string, topicId: number, authorId: number, content: string) {
+        await new Promise((resolve, reject) => {
+            this.http.post(`${environment.apiUrl}/comments/`, {
+                content,
+                authorId,
+                topicId,
+            }, this.header).subscribe({
+                next: (data) => resolve(data),
+                error: (error) => reject(error),
+            });
+        });
+        return new Promise<GetTopicModel>((resolve, reject) => {
+            this.http.get<GetTopicModel>(`${environment.apiUrl}/topics/slug/${slug}`, this.header).subscribe({
+                next: (data) => resolve(data),
+                error: (error) => reject(error),
+            });
+        });
+    }
+
     public create(model: TopicModelCreated) {
         return new Promise<any>((resolve, reject) => {
             this.http.post(`${environment.apiUrl}/topics`, model, this.header).subscribe((data) => {

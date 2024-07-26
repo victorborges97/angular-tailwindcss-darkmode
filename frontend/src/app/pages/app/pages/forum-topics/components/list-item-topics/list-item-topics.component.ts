@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { TopicModel } from 'src/app/interfaces/topic.model';
 import { TimeagoClock, TimeagoCustomFormatter, TimeagoDefaultClock, TimeagoFormatter, TimeagoIntl, TimeagoModule } from 'ngx-timeago';
 import { strings as englishStrings } from "ngx-timeago/language-strings/pt-br";
+import { ImageTopicForumComponent } from "../../../../components/image-topic-forum/image-topic-forum.component";
+import { ImageUserComponent } from "../../../../components/image-user/image-user.component";
 
 @Component({
     selector: 'app-list-item-topics',
@@ -11,6 +13,8 @@ import { strings as englishStrings } from "ngx-timeago/language-strings/pt-br";
     imports: [
         CommonModule,
         TimeagoModule,
+        ImageTopicForumComponent,
+        ImageUserComponent
     ],
     providers: [
         { provide: TimeagoClock, useClass: TimeagoDefaultClock },

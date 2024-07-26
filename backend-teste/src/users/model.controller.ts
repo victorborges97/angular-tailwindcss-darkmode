@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { UsersService } from './model.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles.decoratos';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @Controller('users')
 @ApiTags('users')
@@ -25,6 +27,8 @@ export class UsersController {
     }
 
     @Delete(':id')
+    @UseGuards(AuthGuard)
+    @Roles('canModerate')
     remove(@Param('id') id: string) {
         return this.usersService.remove(+id);
     }

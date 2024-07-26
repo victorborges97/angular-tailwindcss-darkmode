@@ -1,0 +1,20 @@
+::ng-deep .ql-toolbar.ql-snow {
+    border: 0 solid #000; /* exemplo de alteração */
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    padding: 10px;
+}
+
+::ng-deep .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border-top: 1px solid rgb(229 231 235 / var(--tw-border-opacity));
+}
+
+::ng-deep .ql-container.ql-snow {
+    --tw-border-opacity: 1;
+    border-color: rgb(229 231 235 / var(--tw-border-opacity));
+
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+        var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}

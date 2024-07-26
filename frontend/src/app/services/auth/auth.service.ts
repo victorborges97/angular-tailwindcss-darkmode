@@ -1,3 +1,4 @@
+import { Role, RolePermissions } from './../../../../../auth/roles';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -6,9 +7,7 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root',
 })
 export class AuthService {
-    checkAuth() {
-
-    }
+    private userRole: Role = Role.USER;
 
     constructor(private http: HttpClient) { }
 
@@ -16,6 +15,23 @@ export class AuthService {
         headers: new HttpHeaders()
             .set('Content-Type', 'application/json')
     };
+
+    getRole(): Role {
+        return this.userRole;
+    }
+
+    setRole(role: Role) {
+        this.userRole = role;
+    }
+
+    hasPermission(action: keyof typeof RolePermissions[Role]): boolean {
+        const role = this.getRole();
+        return RolePermissions[role][action];
+    }
+
+    isLogged() {
+        return true;
+    }
 
     public login(identifier: string, password: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {

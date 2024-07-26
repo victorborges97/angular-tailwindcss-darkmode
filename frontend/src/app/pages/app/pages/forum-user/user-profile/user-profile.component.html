@@ -1,0 +1,14 @@
+<p class="text-[19px] text-secondary font-semibold">
+    {{ "@" + user()?.usuario }}
+</p>
+<p class="text-[28px] text-secondary font-semibold">Perfil</p>
+<p>
+    Registrado:
+    {{ user()?.createdAt == undefined ? "" : (user()?.createdAt | timeago) }}
+</p>
+<div class="bg-gray-200 h-[1px] w-full px-2 my-4"></div>
+<p class="text-[28px] text-secondary font-semibold">Fóruns</p>
+<p>Última atividade: 2 anos, 3 meses atrás</p>
+<p>Tópicos iniciados: {{ user()?._count?.topics ?? 0 }}</p>
+<p>Respostas criadas: {{ user()?._count?.Comment ?? 0 }}</p>
+<p>Função no Fórum: Participante</p>

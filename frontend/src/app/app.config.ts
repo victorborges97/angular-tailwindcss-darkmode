@@ -9,6 +9,11 @@ import { TopicsTagComponent } from './pages/app/pages/topics-tag/topics-tag.comp
 import { SignupComponent } from './pages/signup/signup.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { provideHttpClient } from '@angular/common/http';
+import { ForumUserComponent } from './pages/app/pages/forum-user/forum-user.component';
+import { UserProfileComponent } from './pages/app/pages/forum-user/user-profile/user-profile.component';
+import { UserTopicsComponent } from './pages/app/pages/forum-user/user-topics/user-topics.component';
+import { UserCommentsComponent } from './pages/app/pages/forum-user/user-comments/user-comments.component';
+import { UserFavoritesComponent } from './pages/app/pages/forum-user/user-favorites/user-favorites.component';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -34,10 +39,32 @@ export const appConfig: ApplicationConfig = {
                 children: [
                     { path: "", redirectTo: "forum", pathMatch: "full" },
                     {
-                        path: 'user/:id',
-                        component: ForumTopicComponent,
-                        pathMatch: 'full',
-                        data: { breadcrumb: 'User', breadcrumbData: '' }
+                        path: 'forum/user/:id',
+                        component: ForumUserComponent,
+                        data: { breadcrumb: 'User', breadcrumbData: '' },
+                        children: [
+                            { path: "", redirectTo: "profile", pathMatch: "full" },
+                            {
+                                path: 'profile',
+                                component: UserProfileComponent,
+                                data: { breadcrumb: 'Perfil', breadcrumbData: '' },
+                            },
+                            {
+                                path: 'topics',
+                                component: UserTopicsComponent,
+                                data: { breadcrumb: 'Topicos', breadcrumbData: '' },
+                            },
+                            {
+                                path: 'comments',
+                                component: UserCommentsComponent,
+                                data: { breadcrumb: 'Comentarios', breadcrumbData: '' },
+                            },
+                            {
+                                path: 'favorites',
+                                component: UserFavoritesComponent,
+                                data: { breadcrumb: 'Favoritos', breadcrumbData: '' },
+                            }
+                        ]
                     },
                     {
                         path: 'forum',

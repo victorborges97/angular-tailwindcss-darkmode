@@ -59,6 +59,13 @@ export class UsersService {
                 imageUrl: true,
                 usuario: true,
                 email: true,
+                createdAt: true,
+                _count: {
+                    select: {
+                        topics: true,
+                        Comment: true,
+                    }
+                }
             }
         });
     }

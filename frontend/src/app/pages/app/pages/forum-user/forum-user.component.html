@@ -1,0 +1,52 @@
+<div class="container mx-auto pt-10 flex flex-col gap-10">
+    <div class="text-5xl text-secondary text-center font-bold">
+        {{ user()?.name }}
+    </div>
+
+    <div class="flex flex-wrap gap-5 justify-center">
+        <div class="bg-white flex flex-col justify-center w-[220px] shadow-md">
+            <app-image-user
+                class="p-5 rounded-md min-w-[200px] w-full min-h-[200px]"
+                [src]="user()?.imageUrl ?? ''"
+                [alt]="user()?.name ?? 'Imagem do Usuario'"
+            />
+
+            <ul class="flex flex-col gap-4 pb-4">
+                <li
+                    routerLink="profile"
+                    routerLinkActive="!bg-primary text-white"
+                    class="px-4 bg-gray-100 text-secondary font-medium cursor-pointer py-2 mx-4 rounded-md hover:bg-primary hover:text-white"
+                >
+                    Perfil
+                </li>
+                <li
+                    routerLink="topics"
+                    routerLinkActive="!bg-primary text-white"
+                    class="px-4 bg-gray-100 text-secondary font-medium cursor-pointer py-2 mx-4 rounded-md hover:bg-primary hover:text-white"
+                >
+                    Tópicos Iniciados
+                </li>
+                <li
+                    routerLink="comments"
+                    routerLinkActive="!bg-primary text-white"
+                    class="px-4 bg-gray-100 text-secondary font-medium cursor-pointer py-2 mx-4 rounded-md hover:bg-primary hover:text-white"
+                >
+                    Respostas criadas
+                </li>
+                <li
+                    routerLink="favorites"
+                    routerLinkActive="!bg-primary text-white"
+                    class="px-4 bg-gray-100 text-secondary font-medium cursor-pointer py-2 mx-4 rounded-md hover:bg-primary hover:text-white"
+                >
+                    Favoritos
+                </li>
+            </ul>
+        </div>
+
+        <div
+            class="bg-white flex flex-col w-full max-w-[800px] h-min shadow-md p-4"
+        >
+            <router-outlet class="w-full"></router-outlet>
+        </div>
+    </div>
+</div>

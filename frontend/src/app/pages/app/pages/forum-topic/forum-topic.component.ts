@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 
 import 'quill-emoji'
+import { ImageUserComponent } from "../../components/image-user/image-user.component";
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
     selector: 'app-forum-topic',
@@ -20,6 +22,7 @@ import 'quill-emoji'
         FormsModule,
         TimeagoModule,
         QuillModule,
+        ImageUserComponent
     ],
     providers: [
         { provide: TimeagoClock, useClass: TimeagoDefaultClock },
@@ -35,6 +38,7 @@ export class ForumTopicComponent {
         private topicsService: TopicsService,
         private route: ActivatedRoute,
         private router: Router,
+        public authService: AuthService,
     ) {
         intl.strings = englishStrings;
         intl.changes.next();
@@ -140,23 +144,42 @@ export class ForumTopicComponent {
     }
 
     onSave() {
-        alert("teste: " + this.htmlText)
+        if (this.topic() == null) {
+            return;
+        }
+        this.topicsService.createCommentByTopic(
+            this.topicTag,
+            this.topic()!.id,
+            1,
+            this.htmlText.toString(),
+        ).then((data) => {
+            this.topic.set(data);
+            this.loading.set(false);
+        }).catch(e => {
+            this.loading.set(false);
+            alert(`Data: ${JSON.stringify(e.error)}`)
+        })
     }
 
     onSelectionChanged = (event: any) => {
         console.log(event);
         if (event.range == null) {
             this.onBlur();
+        } else {
+            this.onInsert();
         }
     }
 
     onContentChanged = (event: any) => {
-        console.log(event.html);
         this.htmlText = event.html;
     }
 
     onBlur = () => {
         console.log("Blurred");
+    }
+
+    onInsert() {
+        console.log("onInsert");
     }
 
     ngOnDestroy() {
