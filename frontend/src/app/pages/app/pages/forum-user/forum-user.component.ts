@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } fr
 import { UserForum } from 'src/app/interfaces/forum';
 import { GetUserModel } from 'src/app/interfaces/user.model';
 import { UsersService } from 'src/app/services/user/model.service';
+import { GetUserModelSharedService } from 'src/app/services/user/user.shared.service';
 
 @Component({
     selector: 'app-forum-user',
@@ -25,18 +26,16 @@ export class ForumUserComponent {
         intl: TimeagoIntl,
         private usersService: UsersService,
         private route: ActivatedRoute,
-        private router: Router,
+        public getUserShared: GetUserModelSharedService,
     ) {
         intl.strings = englishStrings;
         intl.changes.next();
     }
 
     loading = signal(false);
-    user = signal<GetUserModel | null>(null);
     idUser = "";
 
     ngOnInit() {
-
         // Se você precisar observar mudanças no parâmetro (por exemplo, se a rota puder mudar dentro do mesmo componente), use:
         this.loading.set(true);
         this.route.paramMap.subscribe(params => {
@@ -49,7 +48,7 @@ export class ForumUserComponent {
     fetchUser() {
         this.loading.set(true);
         this.usersService.getUserById(this.idUser).then((data) => {
-            this.user.set(data);
+            this.getUserShared.setUser(data)
             this.loading.set(false);
         }).catch(e => {
             this.loading.set(false);

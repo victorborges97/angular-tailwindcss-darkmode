@@ -1,6 +1,9 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppThemeService } from './../../../../app-theme.service';
+import { AuthUserSharedService } from 'src/app/services/auth/auth.user.shared.service';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
     selector: 'app-header',
@@ -9,9 +12,9 @@ import { AppThemeService } from './../../../../app-theme.service';
     template: `
     <header
         class="flex justify-between items-center absolute top-0 left-0 right-0 z-10 p-5"
-        [class.scrolled]="isScrolled && !isAtTop"
-        [class.visible]="isScrolled && !isAtTop && isVisible"
-        [class.at-top]="isAtTop"
+        [class.scrolled]="!hero || (isScrolled && !isAtTop)"
+        [class.visible]="!hero || (isScrolled && !isAtTop && isVisible)"
+        [class.at-top]="!hero ? false : isAtTop"
     >
         <nav class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-lg font-bold">
@@ -32,18 +35,36 @@ import { AppThemeService } from './../../../../app-theme.service';
                     </button>
                 </li>
                 <li>
-                    <a href="/" class="hover:text-gray-300"
-                        >Home</a
-                    >
-                </li>
-                <li>
-                    <a href="#" class="hover:text-gray-300"
-                        >Forums</a
-                    >
+                <div class="flex items-center relative">
+                    <img
+                    [src]="authUserSharedService.getUser()?.imageUrl"
+                    alt="User Image"
+                    class="w-10 h-10 rounded-full cursor-pointer"
+                    (click)="toggleDropdown()"
+                    />
+                    <div *ngIf="dropdownOpen">
+                        <div class="fixed inset-0 bg-black opacity-0 z-10" (click)="closeDropdown()"></div>
+                        <div class="absolute -left-36 mt-6 w-48 bg-white rounded-md shadow-lg z-20">
+                            <button
+                            (click)="goToUserProfile()"
+                            class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md"
+                            >
+                            Perfil
+                            </button>
+                            <button
+                            (click)="logout()"
+                            class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md"
+                            >
+                            Sair
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 </li>
             </ul>
         </nav>
     </header>
+    <div *ngIf="!hero" class="h-[80px]" ></div>
   `,
     styleUrls: ["./header.component.scss"],
 })
@@ -52,7 +73,16 @@ export class HeaderComponent {
     isAtTop = true;
     lastScrollTop = 0;
     isVisible = true;
-    constructor(private appTheme: AppThemeService) { }
+    dropdownOpen = false;
+
+    @Input() hero = true;
+
+    constructor(
+        private appTheme: AppThemeService,
+        private authService: AuthService,
+        public authUserSharedService: AuthUserSharedService,
+        private router: Router,
+    ) { }
 
     @HostListener('window:scroll', [])
     onWindowScroll() {
@@ -76,5 +106,22 @@ export class HeaderComponent {
 
     set() {
         return this.appTheme.toggleDarkMode();
+    }
+
+    closeDropdown() {
+        this.dropdownOpen = false;
+    }
+    toggleDropdown() {
+        this.dropdownOpen = !this.dropdownOpen;
+    }
+
+    goToUserProfile() {
+        this.router.navigate(['/app/forum/user/', this.authUserSharedService.getUser()?.id]);
+        this.closeDropdown();
+    }
+
+    logout() {
+        this.authService.logout();
+        this.closeDropdown();
     }
 }

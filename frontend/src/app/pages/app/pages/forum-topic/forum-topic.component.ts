@@ -47,15 +47,16 @@ export class ForumTopicComponent {
     loading = signal(false);
     topic = signal<GetTopicModel | null>(null);
 
-    htmlText = "<p>Testing</p>";
+    htmlText = "";
 
     quillConfig = {
         // toolbar: '.toolbar',
         toolbar: {
             container: [
-                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                // ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                ['italic', 'underline', 'strike'],        // toggled buttons
                 ['code-block'],
-                [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+                // [{ 'header': 1 }, { 'header': 2 }],               // custom button values
                 [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                 //[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
                 //[{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
@@ -147,12 +148,16 @@ export class ForumTopicComponent {
         if (this.topic() == null) {
             return;
         }
+        if (this.htmlText.trim().length == 0) {
+            return;
+        }
         this.topicsService.createCommentByTopic(
             this.topicTag,
             this.topic()!.id,
             1,
             this.htmlText.toString(),
         ).then((data) => {
+            this.htmlText = '';
             this.topic.set(data);
             this.loading.set(false);
         }).catch(e => {

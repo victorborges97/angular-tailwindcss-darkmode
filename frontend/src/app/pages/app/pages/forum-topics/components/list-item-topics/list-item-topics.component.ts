@@ -24,24 +24,17 @@ import { ImageUserComponent } from "../../../../components/image-user/image-user
     templateUrl: './list-item-topics.component.html',
 })
 export class ListItemTopicComponent {
+    [x: string]: any;
     @Input() item!: TopicModel;
-    forumTag: string = "";
-
-    constructor(intl: TimeagoIntl, private route: ActivatedRoute) {
+    @Input() view: ViewListItemTopic = ViewListItemTopic.list;
+    @Input() idUser: string | undefined;
+    constructor(intl: TimeagoIntl) {
         intl.strings = englishStrings;
         intl.changes.next();
     }
+}
 
-    ngOnInit(): void {
-        // Recupera o parâmetro da rota
-        this.forumTag = this.route.snapshot.paramMap.get('forumTag') ?? "";
-    }
-
-    getUrlTopic(topicTag: string) {
-        return `app/forum/${this.forumTag}/${topicTag}`
-    }
-
-    getUrlForum() {
-        return `app/forum/${this.forumTag}`
-    }
+export enum ViewListItemTopic {
+    list,
+    listDetailUser,
 }

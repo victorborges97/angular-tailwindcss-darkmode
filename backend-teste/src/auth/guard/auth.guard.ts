@@ -2,7 +2,7 @@
 // auth.guard.ts
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { RolePermissions } from '../../../../auth/roles';
+import { RolePermissions } from '../roles';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

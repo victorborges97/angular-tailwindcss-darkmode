@@ -9,6 +9,9 @@ module.exports = {
         colors: {
             primary: "#10b3d6",
             secondary: "#1d2746",
+
+            darkTextTitle: "#f8f8f8",
+            darkTextSub: "#b9b9b9",
         },
         boxShadow: {
             forum: "0 3px 6px 0 rgba(4, 73, 89, .06);",

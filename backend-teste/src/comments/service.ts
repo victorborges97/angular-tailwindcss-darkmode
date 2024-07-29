@@ -55,6 +55,68 @@ export class CommentsService {
         });
     }
 
+    async findAllByTopicIdPaginated(topicId: string, filtersInclude: FiltersInclude, page: number, pageSize: number) {
+        const author = filtersInclude.hasAuthor ? {
+            select: {
+                imageUrl: true,
+                name: true,
+                id: true,
+            }
+        } : undefined;
+
+        const forum = filtersInclude.hasForum ? {
+            select: {
+                id: true,
+                name: true,
+                imageUrl: true,
+            }
+        } : undefined;
+
+        const topic = filtersInclude.hasForum ? {
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+            }
+        } : undefined;
+
+        const skip = ((page ?? 1) - 1) * (pageSize ?? 10);
+        const take = (pageSize ?? 10);
+
+        const totalCount = await this.prisma.comment.count({
+            where: {
+                topicId: Number(topicId),
+            },
+        });
+
+        const comments = await this.prisma.comment.findMany({
+            where: {
+                topicId: Number(topicId),
+            },
+            select: {
+                id: true,
+                content: true,
+                updatedAt: true,
+                createdAt: true,
+                author,
+                forum,
+                topic,
+            },
+            skip,
+            take,
+        });
+
+        return {
+            data: comments,
+            pagination: {
+                totalItems: totalCount,
+                currentPage: (page ?? 1),
+                pageSize: (pageSize ?? 10),
+                totalPages: Math.ceil(totalCount / (pageSize ?? 10)),
+            },
+        }
+    }
+
     async findAllByTopicId(topicId: string, filtersInclude: FiltersInclude) {
         const author = filtersInclude.hasAuthor ? {
             select: {
@@ -79,6 +141,7 @@ export class CommentsService {
                 slug: true,
             }
         } : undefined;
+
         return await this.prisma.comment.findMany({
             where: {
                 topicId: Number(topicId),
@@ -91,7 +154,7 @@ export class CommentsService {
                 author,
                 forum,
                 topic,
-            }
+            },
         });
     }
 

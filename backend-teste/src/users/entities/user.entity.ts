@@ -2,6 +2,7 @@
 import { User as ModelPrisma } from "@prisma/client"
 
 export class User implements ModelPrisma {
+    role: string;
     createdAt: Date;
     updatedAt: Date;
     password: string;

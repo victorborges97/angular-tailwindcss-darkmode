@@ -1,27 +1,41 @@
 /* eslint-disable prettier/prettier */
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
+
+    if (!process.env.PASSWORD) throw "Error senha nao recuperada";
     // Seed Users
-    const user1 = await prisma.user.create({
+    await prisma.user.create({
         data: {
-            name: 'John Doe',
-            usuario: 'johndoe',
-            email: 'john@example.com',
-            imageUrl: 'https://example.com/john.jpg',
-            password: 'senha1',
+            name: 'João Victor',
+            usuario: 'victorborges97',
+            email: 'borges.jvdo@gmail.com',
+            imageUrl: 'https://github.com/victorborges97.png',
+            password: await hash(process.env.PASSWORD),
+            role: 'ADMIN'
         }
     });
 
     const user2 = await prisma.user.create({
         data: {
+            name: 'John Doe',
+            usuario: 'johndoe',
+            email: 'john@example.com',
+            imageUrl: 'https://example.com/john.jpg',
+            password: await hash('senha1'),
+        }
+    });
+
+    const user3 = await prisma.user.create({
+        data: {
             name: 'Jane Smith',
             usuario: 'janesmith',
             email: 'jane@example.com',
             imageUrl: 'https://example.com/jane.jpg',
-            password: 'senha1',
+            password: await hash('senha1'),
         }
     });
 
@@ -30,7 +44,7 @@ async function main() {
         data: {
             name: 'General Discussion',
             description: 'A place for general discussion',
-            userId: user1.id,
+            userId: user3.id,
             imageUrl: 'https://example.com/forum1.jpg'
         }
     });
@@ -50,7 +64,7 @@ async function main() {
             title: 'Welcome to the forum!',
             slug: 'welcome-to-the-forum',
             content: 'This is the first topic in the forum.',
-            authorId: user1.id,
+            authorId: user3.id,
             forumId: forum1.id
         }
     });
@@ -78,7 +92,7 @@ async function main() {
     await prisma.comment.create({
         data: {
             content: 'I\'m excited to discuss tech trends!',
-            authorId: user1.id,
+            authorId: user3.id,
             forumId: forum2.id,
             topicId: topic2.id
         }
@@ -121,7 +135,7 @@ async function main() {
     // Seed UserStarsTopic
     await prisma.userStarsTopic.create({
         data: {
-            userId: user1.id,
+            userId: user3.id,
             topicId: topic1.id
         }
     });
@@ -142,3 +156,8 @@ main()
     .finally(async () => {
         await prisma.$disconnect();
     });
+
+
+async function hash(pass: string) {
+    return await bcrypt.hash(pass, 10);
+}

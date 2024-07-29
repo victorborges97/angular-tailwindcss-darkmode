@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+// regular style toast
+@import 'ngx-toastr/toastr';
+
 @import "~quill/dist/quill.core.css";
 @import "~quill/dist/quill.snow.css";
 
@@ -15,4 +18,12 @@ body {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     color: #6b707f;
+}
+
+.th-header {
+    @apply dark:bg-[#2c303a] bg-[#f7f8f9] border-[#eaeeef] dark:border-[#4d4d4d] border
+}
+
+.td-border-b {
+    @apply border-[#f2f3f4] dark:border-[#4d4d4d] border-b
 }

@@ -2,12 +2,11 @@ header {
     transition: background-color 0.3s, transform 0.3s;
     font-size: 14;
     font-weight: 500;
-    color: white;
+    @apply dark:text-white text-white;
 }
 
 header.scrolled {
-    background-color: white;
-    color: #6b707f !important;
+    @apply dark:bg-[#2c303a] bg-white text-[#6b707f] dark:text-white;
     transform: translateY(-100%);
     position: fixed;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .15);

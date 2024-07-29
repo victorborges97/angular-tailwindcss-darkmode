@@ -6,6 +6,7 @@ import { strings as englishStrings } from "ngx-timeago/language-strings/pt-br";
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { GetUserModel } from 'src/app/interfaces/user.model';
 import { UsersService } from 'src/app/services/user/model.service';
+import { GetUserModelSharedService } from 'src/app/services/user/user.shared.service';
 @Component({
     selector: 'app-forum-user',
     standalone: true,
@@ -23,7 +24,7 @@ export class UserProfileComponent {
         intl: TimeagoIntl,
         private usersService: UsersService,
         private route: ActivatedRoute,
-        private router: Router,
+        public getUserShared: GetUserModelSharedService,
     ) {
         intl.strings = englishStrings;
         intl.changes.next();
@@ -40,7 +41,7 @@ export class UserProfileComponent {
 
         this.route.parent?.params.subscribe(params => {
             this.idUser = params['id'];
-            this.fetchUser();
+            // this.fetchUser();
         });
     }
 

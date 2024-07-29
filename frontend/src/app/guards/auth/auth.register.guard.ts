@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthRegisterGuard implements CanActivate {
 
     constructor(
         private authService: AuthService,
@@ -23,21 +23,11 @@ export class AuthGuard implements CanActivate {
 
         if (this.authService.isLogged()) {
             console.log("isLogged");
-            const action = ((route.data['action'] ?? "").toString()) as keyof (typeof RolePermissions)[Role];
-            console.log('action: ', action);
-            if (this.authService.hasPermission(action)) {
-                return true;
-            } else {
-                console.log('not permission action: ', action);
-                this.toastr.warning("Sem permissão de acesso!", "Alerta");
-                this.location.back();
-                return false;
-            }
+            this.router.navigate(['/app']);
+            return false;
         } else {
             console.log('not logged: ');
-            this.toastr.warning("Por favor, faça login primeiro!", "Alerta");
-            this.router.navigate(['/sign-in'], { queryParams: { returnUrl: state.url } });
-            return false;
+            return true;
         }
     }
 }

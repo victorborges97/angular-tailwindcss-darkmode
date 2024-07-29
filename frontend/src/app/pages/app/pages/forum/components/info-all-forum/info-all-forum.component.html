@@ -1,11 +1,13 @@
-<div class="p-4 rounded-lg">
+<div class="p-4 rounded-lg text-[#333] dark:text-darkTextSub">
     <div class="mb-8">
-        <h3 class="text-xl text-[#1d2746] font-bold">Tópicos recentes</h3>
+        <h3 class="text-xl text-[#1d2746] font-bold dark:text-darkTextTitle">
+            Tópicos recentes
+        </h3>
         <ul class="mt-7 space-y-2">
             <div *ngIf="!loadingTopics()">
                 <li
                     *ngFor="let item of topics()"
-                    class="relative mb-3 pb-3 border-b items-center flex border-b-[#e5e7e9]"
+                    class="relative mb-3 pb-3 border-b items-center flex border-b-[#e5e7e9] dark:border-b-[#41484e]"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +25,7 @@
                     </svg>
 
                     <a
-                        class="hover:text-[#10b3d6] pl-4 inline-block text-sm text-[#333] transition-all"
+                        class="hover:text-[#10b3d6] pl-4 inline-block text-sm transition-all"
                         href="/app/forum/{{ item.forumId }}/{{ item.slug }}"
                     >
                         {{ item.title }}
@@ -51,8 +53,10 @@
         </ul>
     </div>
     <div>
-        <h3 class="text-xl text-[#1d2746] font-bold">Estatísticas do Fórum</h3>
-        <dl class="mt-7 space-y-2">
+        <h3 class="text-xl text-[#1d2746] font-bold dark:text-darkTextTitle">
+            Estatísticas do Fórum
+        </h3>
+        <dl class="mt-7 text-sm space-y-2">
             <div class="flex justify-between">
                 <dt>Usuários registrados</dt>
                 <dd class="font-bold">

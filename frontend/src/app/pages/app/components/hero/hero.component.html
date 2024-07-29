@@ -1,5 +1,6 @@
 <section
-    class="relative pt-[190px] pb-[95px] bg-gradient-to-r from-[#10b3d6] to-[#1d2746]"
+    *ngIf="hero"
+    class="relative pt-[190px] pb-[95px] bg-gradient-to-r dark:from-[#2c303a] from-[#10b3d6] to-[#1d2746]"
 >
     <img
         src="https://wordpress-theme.spider-themes.net/docly/wp-content/themes/docly/assets/img/v.svg"
@@ -28,7 +29,7 @@
                 <input
                     type="search"
                     id="searchInput"
-                    class="h-16 rounded pl-8 text-sm border-0 outline-none shadow-none rounded-r-none flex-1"
+                    class="h-16 rounded pl-8 text-sm border-0 outline-none shadow-none rounded-r-none flex-1 dark:bg-[#131417] dark:focus:bg-[#363636] transition-all"
                     name="search"
                     #searchInput
                     placeholder='Pesquisar ("/" para focar)'

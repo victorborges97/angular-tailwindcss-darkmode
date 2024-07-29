@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Role, RolePermissions } from './../../../auth/roles';
+import { Role, RolePermissions } from '../auth/roles';
 // roles.decorator.ts
 import { SetMetadata } from '@nestjs/common';
 

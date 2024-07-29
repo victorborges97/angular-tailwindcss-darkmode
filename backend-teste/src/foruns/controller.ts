@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ForunsService } from './service';
 import { CreateForunDto } from './dto/create.dto';
 import { UpdateForunDto } from './dto/update.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { TopicsService } from 'src/topics/service';
 import { UsersService } from 'src/users/model.service';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { Roles } from 'src/decorators/roles.decoratos';
 
 @Controller('foruns')
 @ApiTags('forums')
@@ -28,6 +30,8 @@ export class ForunsController {
     }
 
     @Post()
+    // @UseGuards(AuthGuard)
+    // @Roles('canComment')
     create(@Body() createForunDto: CreateForunDto) {
         return this.forunsService.create(createForunDto);
     }

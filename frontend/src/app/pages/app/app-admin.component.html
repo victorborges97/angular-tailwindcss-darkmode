@@ -1,5 +1,5 @@
-<app-header />
-<app-hero />
-<app-breadcrumb />
+<app-header [hero]="isHero" />
+<app-hero [hero]="isHero" />
+<app-breadcrumb *ngIf="isHero" />
 <router-outlet></router-outlet>
 <app-footer />

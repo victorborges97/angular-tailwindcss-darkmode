@@ -13,11 +13,12 @@ export interface GetUserModel {
 }
 
 export interface UserModel {
-    id: number,
+    role: string;
+    createdAt: Date;
+    updatedAt: Date;
+    id: number;
     name: string;
     imageUrl: string;
     usuario: string;
     email: string;
-    createdAt: Date;
-    updatedAt: Date;
 }

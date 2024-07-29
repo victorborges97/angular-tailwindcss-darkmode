@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     templateUrl: './hero.component.html',
 })
 export class HeroComponent {
+    @Input() hero: boolean = true;
     @ViewChild('searchInput') searchInput!: ElementRef;
 
     constructor(private router: Router, private route: ActivatedRoute) { }

@@ -8,29 +8,39 @@ import { ForumTopicComponent } from './pages/app/pages/forum-topic/forum-topic.c
 import { TopicsTagComponent } from './pages/app/pages/topics-tag/topics-tag.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SigninComponent } from './pages/signin/signin.component';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { ForumUserComponent } from './pages/app/pages/forum-user/forum-user.component';
 import { UserProfileComponent } from './pages/app/pages/forum-user/user-profile/user-profile.component';
 import { UserTopicsComponent } from './pages/app/pages/forum-user/user-topics/user-topics.component';
 import { UserCommentsComponent } from './pages/app/pages/forum-user/user-comments/user-comments.component';
 import { UserFavoritesComponent } from './pages/app/pages/forum-user/user-favorites/user-favorites.component';
+import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { AuthGuard } from './guards/auth/auth.guard';
+import { AuthLoginGuard } from './guards/auth/auth.login.guard';
+import { AuthRegisterGuard } from './guards/auth/auth.register.guard';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
         provideRouter([
             {
                 path: '',
-                component: CardGridComponent,
+                pathMatch: 'full',
+                redirectTo: 'sign-in'
             },
 
             {
                 path: 'sign-up',
                 component: SignupComponent,
+                canActivate: [AuthRegisterGuard],
             },
 
             {
                 path: 'sign-in',
                 component: SigninComponent,
+                canActivate: [AuthLoginGuard],
             },
 
             {
@@ -41,7 +51,7 @@ export const appConfig: ApplicationConfig = {
                     {
                         path: 'forum/user/:id',
                         component: ForumUserComponent,
-                        data: { breadcrumb: 'User', breadcrumbData: '' },
+                        data: { breadcrumb: 'User', breadcrumbData: '', hero: false },
                         children: [
                             { path: "", redirectTo: "profile", pathMatch: "full" },
                             {
@@ -64,7 +74,7 @@ export const appConfig: ApplicationConfig = {
                                 component: UserFavoritesComponent,
                                 data: { breadcrumb: 'Favoritos', breadcrumbData: '' },
                             }
-                        ]
+                        ],
                     },
                     {
                         path: 'forum',
@@ -79,7 +89,7 @@ export const appConfig: ApplicationConfig = {
                     {
                         path: 'forum/topico-tag/:tag',
                         component: TopicsTagComponent,
-                        data: { breadcrumb: 'Tag' }
+                        data: { breadcrumb: 'Tag', hero: false }
                     },
                     {
                         path: 'forum/:forumTag/:topicTag',
@@ -87,11 +97,15 @@ export const appConfig: ApplicationConfig = {
                         pathMatch: 'full',
                         data: { breadcrumb: 'Topic', breadcrumbData: '' }
                     },
-                ]
+                ],
+                canActivate: [AuthGuard],
+                data: { action: "canViewForums" }
             },
 
             // { path: '**', component: PageNotFoundComponent }
         ]),
         provideHttpClient(),
+        provideAnimations(), // required animations providers
+        provideToastr(), // Toastr providers
     ]
 };

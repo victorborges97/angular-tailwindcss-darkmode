@@ -1,12 +1,10 @@
-<div
-    class="flex justify-between p-4 text-left bg-[#f7f8f9] border-[#eaeeef] border rounded-t-md"
->
+<div class="th-header flex justify-between p-4 text-left rounded-t-md">
     <div class="flex-1">
         <span>Tópicos</span>
     </div>
     <div class="flex-1"></div>
 </div>
-<div class="rounded-lg overflow-hidden shadow-forum relative">
+<div class="rounded-lg overflow-hidden shadow-forum relative min-h-[125px]">
     <div
         *ngIf="loading()"
         role="status"

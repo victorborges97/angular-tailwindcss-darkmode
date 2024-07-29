@@ -24,6 +24,7 @@ export class BreadcrumbService {
         ).subscribe(() => {
             const root: ActivatedRouteSnapshot = this.router.routerState.snapshot.root;
             const breadcrumbs: Breadcrumb[] = this.createBreadcrumbs(root);
+            console.log(breadcrumbs);
             this.breadcrumbs.next(breadcrumbs);
         });
     }

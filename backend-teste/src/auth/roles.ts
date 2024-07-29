@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // roles.ts
 export enum Role {
     USER = 'USER',

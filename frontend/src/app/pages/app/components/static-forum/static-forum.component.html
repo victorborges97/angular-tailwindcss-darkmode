@@ -1,0 +1,57 @@
+<h3 class="text-xl text-[#1d2746] font-bold dark:text-darkTextTitle">
+    Estatísticas do Fórum
+</h3>
+<dl class="mt-7 text-sm space-y-2">
+    <div class="flex justify-between">
+        <dt>Usuários registrados</dt>
+        <dd class="font-bold">
+            <!-- Skeleton Loader -->
+            <ng-container *ngTemplateOutlet="skeCount"></ng-container>
+            <!-- Real Content (Hidden initially, shown when loaded) -->
+            <span *ngIf="!loadingCount()">{{ count().users }}</span>
+        </dd>
+    </div>
+    <div class="flex justify-between">
+        <dt>Fóruns</dt>
+        <dd class="font-bold">
+            <!-- Skeleton Loader -->
+            <ng-container *ngTemplateOutlet="skeCount"></ng-container>
+            <!-- Real Content (Hidden initially, shown when loaded) -->
+            <span *ngIf="!loadingCount()">{{ count().foruns }}</span>
+        </dd>
+    </div>
+    <div class="flex justify-between">
+        <dt>Tópicos</dt>
+        <dd class="font-bold">
+            <!-- Skeleton Loader -->
+            <ng-container *ngTemplateOutlet="skeCount"></ng-container>
+            <!-- Real Content (Hidden initially, shown when loaded) -->
+            <span *ngIf="!loadingCount()">{{ count().topics }}</span>
+        </dd>
+    </div>
+    <div class="flex justify-between">
+        <dt>Respostas</dt>
+        <dd class="font-bold">
+            <!-- Skeleton Loader -->
+            <ng-container *ngTemplateOutlet="skeCount"></ng-container>
+            <!-- Real Content (Hidden initially, shown when loaded) -->
+            <span *ngIf="!loadingCount()">{{ count().comments }}</span>
+        </dd>
+    </div>
+    <div class="flex justify-between">
+        <dt>Tags de Tópicos</dt>
+        <dd class="font-bold">
+            <!-- Skeleton Loader -->
+            <ng-container *ngTemplateOutlet="skeCount"></ng-container>
+            <!-- Real Content (Hidden initially, shown when loaded) -->
+            <span *ngIf="!loadingCount()">{{ count().tags }}</span>
+        </dd>
+    </div>
+</dl>
+
+<ng-template #skeCount>
+    <span
+        *ngIf="loadingCount()"
+        class="skeleton-loader animate-pulse bg-gray-200 rounded w-4 h-4 inline-block"
+    ></span>
+</ng-template>
