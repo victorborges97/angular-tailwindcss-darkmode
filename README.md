@@ -4,8 +4,8 @@ Welcome to **Angular TailwindCSS Forum**! This project is a modern forum applica
 
 ## 📋 Table of Contents
 
-- [About the Project](#about-the-project)
-- [Features](#features)
+- [About the Project](#-about-the-project)
+- [Features](#-features)
 - [Technologies](#technologies)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
