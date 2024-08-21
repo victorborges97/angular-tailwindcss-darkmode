@@ -6,7 +6,7 @@ Welcome to **Angular TailwindCSS Forum**! This project is a modern forum applica
 
 - [About the Project](#-about-the-project)
 - [Features](#-features)
-- [Technologies](#technologies)
+- [Technologies](#%EF%B8%8F-technologies)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
